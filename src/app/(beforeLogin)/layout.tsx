@@ -1,8 +1,15 @@
-export default function BeforeLoginLayout({ children }) {
+import styles from "@/app/page.module.css";
+
+type Props = {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+};
+
+export default function BeforeLoginLayout({ children, modal }: Readonly<Props>) {
   return (
-    <div>
-      <header>로그인 전 레이아웃</header>
-      <main>{children}</main>
+    <div className={styles.container}>
+      {children}
+      {modal}
     </div>
   );
 }
