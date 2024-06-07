@@ -4,6 +4,8 @@ import Image from "next/image";
 import style from "@/app/(afterLogin)/layout.module.css";
 import logo from "../../../public/logo.svg";
 
+import NavMenu from "@/app/(afterLogin)/_component/NavMenu";
+
 export default function AfterLoginLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={style.container}>
@@ -15,6 +17,11 @@ export default function AfterLoginLayout({ children }: { children: React.ReactNo
                 <Image src={logo} alt='로고' width={40} height={40} />
               </div>
             </Link>
+            <nav>
+              <ul>
+                <NavMenu />
+              </ul>
+            </nav>
           </div>
         </section>
       </header>
