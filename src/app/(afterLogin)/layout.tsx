@@ -5,6 +5,7 @@ import style from "@/app/(afterLogin)/layout.module.css";
 import logo from "../../../public/logo.svg";
 
 import NavMenu from "@/app/(afterLogin)/_component/NavMenu";
+import LogoutButton from "./_component/LogoutButton";
 
 export default function AfterLoginLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,7 +22,11 @@ export default function AfterLoginLayout({ children }: { children: React.ReactNo
               <ul>
                 <NavMenu />
               </ul>
+              <Link href='/compose/tweet' className={style.postButton}>
+                게시하기
+              </Link>
             </nav>
+            <LogoutButton />
           </div>
         </section>
       </header>
