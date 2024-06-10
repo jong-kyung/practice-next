@@ -10,7 +10,12 @@ import LogoutButton from "./_component/LogoutButton";
 import TrendSection from "./_component/TrendSection";
 import FollowRecommend from "./_component/FollowRecommend";
 
-export default function AfterLoginLayout({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+};
+
+export default function AfterLoginLayout({ children, modal }: Props) {
   return (
     <div className={style.container}>
       <header className={style.leftSectionWrapper}>
@@ -57,6 +62,7 @@ export default function AfterLoginLayout({ children }: { children: React.ReactNo
           </section>
         </div>
       </div>
+      {modal}
     </div>
   );
 }
