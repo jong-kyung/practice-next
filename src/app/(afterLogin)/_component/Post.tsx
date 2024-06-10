@@ -11,7 +11,11 @@ import { faker } from "@faker-js/faker";
 dayjs.locale("ko"); // 한국어 설정
 dayjs.extend(relativeTime); // 상대시간 플러그인 사용
 
-export default function Post() {
+type Props = {
+  noImage?: boolean;
+};
+
+export default function Post({ noImage }: Props) {
   const target = {
     postId: 1,
     User: {
@@ -24,7 +28,7 @@ export default function Post() {
     Images: [] as any[],
   };
 
-  if (Math.random() > 0.5) {
+  if (Math.random() > 0.5 && !noImage) {
     target.Images.push({ imageId: 1, link: faker.image.urlLoremFlickr() });
   }
 
