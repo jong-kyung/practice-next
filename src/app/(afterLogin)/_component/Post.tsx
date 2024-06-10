@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 
+import ActionButtons from "./ActionButtons";
 import style from "./post.module.css";
 
 dayjs.locale("ko"); // 한국어 설정
@@ -41,6 +42,7 @@ export default function Post() {
           </div>
           <div>{target.content}</div>
           <div className={style.postImageSection}></div>
+          <ActionButtons />
         </div>
       </div>
     </article>
