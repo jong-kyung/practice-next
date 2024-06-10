@@ -6,6 +6,7 @@ import "dayjs/locale/ko";
 import ActionButtons from "./ActionButtons";
 import style from "./post.module.css";
 import PostArticle from "./PostArticle";
+import { faker } from "@faker-js/faker";
 
 dayjs.locale("ko"); // 한국어 설정
 dayjs.extend(relativeTime); // 상대시간 플러그인 사용
@@ -20,8 +21,12 @@ export default function Post() {
     },
     content: "Hello, World!",
     createdAt: new Date(),
-    Images: [],
+    Images: [] as any[],
   };
+
+  if (Math.random() > 0.5) {
+    target.Images.push({ imageId: 1, link: faker.image.urlLoremFlickr() });
+  }
 
   return (
     <PostArticle post={target}>
@@ -43,7 +48,16 @@ export default function Post() {
             <span className={style.postDate}>{dayjs(target.createdAt).fromNow(true)}</span>
           </div>
           <div>{target.content}</div>
-          <div className={style.postImageSection}></div>
+          <div className={style.postImageSection}>
+            {target.Images && target.Images.length > 0 && (
+              <Link
+                href={`/${target.User.id}/status/${target.postId}/photo/${target.Images[0].imageId}`}
+                className={style.postImageSection}
+              >
+                <img src={target.Images[0]?.link} alt='이미지' />
+              </Link>
+            )}
+          </div>
           <ActionButtons />
         </div>
       </div>
