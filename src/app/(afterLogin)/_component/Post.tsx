@@ -15,7 +15,7 @@ type Props = {
   noImage?: boolean;
 };
 
-export default function Post({ noImage }: Props) {
+export default function Post({ noImage }: Readonly<Props>) {
   const target = {
     postId: 1,
     User: {
