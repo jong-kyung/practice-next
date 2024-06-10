@@ -9,7 +9,7 @@ import NavMenu from "@/app/(afterLogin)/_component/NavMenu";
 import LogoutButton from "./_component/LogoutButton";
 import TrendSection from "./_component/TrendSection";
 import FollowRecommend from "./_component/FollowRecommend";
-import RightSearchZone from "./home/_component/RightSerachZone";
+import RightSearchZone from "./_component/RightSerachZone";
 
 type Props = {
   children: React.ReactNode;
