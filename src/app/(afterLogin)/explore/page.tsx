@@ -1,5 +1,5 @@
 import Trend from "@/app/(afterLogin)/_component/Trend";
-import SearchForm from "@/app/(afterLogin)/_component/SearchFrom";
+import SearchForm from "@/app/(afterLogin)/_component/SearchForm";
 
 import style from "./explore.module.css";
 
