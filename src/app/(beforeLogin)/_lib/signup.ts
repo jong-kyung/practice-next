@@ -1,8 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
-export default async (prevState: { message: any }, formData: FormData) => {
+export default async (prevState: any, formData: FormData) => {
   if (!formData.get("id") || !(formData.get("id") as string)?.trim()) {
     return { message: "no_id" };
   }
@@ -15,28 +16,30 @@ export default async (prevState: { message: any }, formData: FormData) => {
   if (!formData.get("image")) {
     return { message: "no_image" };
   }
-
   let shouldRedirect = false;
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
-      method: "POST",
+      method: "post",
       body: formData,
-      credentials: "include", // 쿠키를 주고받기 위해 필요
+      credentials: "include",
     });
-
     console.log(response.status);
     if (response.status === 403) {
       return { message: "user_exists" };
     }
-
     console.log(await response.json());
     shouldRedirect = true;
+    await signIn("credentials", {
+      username: formData.get("id"),
+      password: formData.get("password"),
+      redirect: false,
+    });
   } catch (err) {
     console.error(err);
     return { message: null };
   }
 
   if (shouldRedirect) {
-    redirect("/home");
+    redirect("/home"); // try/catch문 안에서 X
   }
 };
