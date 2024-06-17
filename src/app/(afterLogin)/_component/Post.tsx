@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
@@ -20,15 +19,6 @@ type Props = {
 
 export default function Post({ noImage, post }: Readonly<Props>) {
   const target = post;
-
-  if (Math.random() > 0.5 && !noImage) {
-    target.Images.push(
-      { imageId: 1, link: faker.image.urlLoremFlickr() },
-      { imageId: 2, link: faker.image.urlLoremFlickr() },
-      { imageId: 3, link: faker.image.urlLoremFlickr() },
-      { imageId: 4, link: faker.image.urlLoremFlickr() }
-    );
-  }
 
   return (
     <PostArticle post={target}>
