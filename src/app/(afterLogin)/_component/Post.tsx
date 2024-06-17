@@ -8,26 +8,18 @@ import ActionButtons from "./ActionButtons";
 import PostArticle from "./PostArticle";
 import PostImages from "./PostImages";
 import style from "./post.module.css";
+import { Post as IPost } from "@/model/Post";
 
 dayjs.locale("ko"); // 한국어 설정
 dayjs.extend(relativeTime); // 상대시간 플러그인 사용
 
 type Props = {
   noImage?: boolean;
+  post: IPost;
 };
 
-export default function Post({ noImage }: Readonly<Props>) {
-  const target = {
-    postId: 1,
-    User: {
-      id: "finkd",
-      nickname: "Mark Zuckerberg",
-      image: "/meta-logo.svg",
-    },
-    content: "Hello, World!",
-    createdAt: new Date(),
-    Images: [] as any[],
-  };
+export default function Post({ noImage, post }: Readonly<Props>) {
+  const target = post;
 
   if (Math.random() > 0.5 && !noImage) {
     target.Images.push(
