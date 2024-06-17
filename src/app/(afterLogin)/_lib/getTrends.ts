@@ -1,7 +1,7 @@
-export async function getPostRecommends() {
-  const res = await fetch(`http://localhost:9090/api/postRecommends`, {
+export async function getTrends() {
+  const res = await fetch(`http://localhost:9090/api/trends`, {
     next: {
-      tags: ["posts", "recommends"], // 캐시초기화를 위한 태그
+      tags: ["trends"], // 캐시초기화를 위한 태그
     },
     cache: "no-store", // 캐시 사용하지 않음
   });
