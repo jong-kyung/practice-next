@@ -11,7 +11,11 @@ import style from "./home.module.css";
 
 export default async function Home() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({ queryKey: ["posts", "recommends"], queryFn: getPostRecommends });
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["posts", "recommends"],
+    queryFn: getPostRecommends,
+    initialPageParam: 0, // 초기 페이지
+  });
   const dehydratedState = dehydrate(queryClient); // 서버사이드 렌더링을 위한 dehydrate
 
   return (
