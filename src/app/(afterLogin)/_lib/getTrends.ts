@@ -1,8 +1,9 @@
 export async function getTrends() {
-  const res = await fetch(`http://localhost:9090/api/trends`, {
+  const res = await fetch(`http://localhost:9090/api/hashtags/trends`, {
     next: {
       tags: ["trends"], // 캐시초기화를 위한 태그
     },
+    credentials: "include",
     cache: "no-store", // 캐시 사용하지 않음
   });
   // The return value is *not* serialized
