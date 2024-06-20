@@ -7,10 +7,20 @@ import style from "./profile.module.css";
 import { auth } from "@/auth";
 import { getUserPosts } from "./_lib/getUserPosts";
 import { getUserServer } from "./_lib/getUserServer";
+import { Metadata } from "next";
+import { User } from "@/model/User";
 
 type Props = {
   params: { username: string };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const user: User = await getUserServer({ queryKey: ["users", params.username] });
+  return {
+    title: `${user.nickname} (${user.id}) / X`,
+    description: `${user.nickname}  / X`,
+  };
+}
 
 export default async function Profile({ params }: Props) {
   const { username } = params;

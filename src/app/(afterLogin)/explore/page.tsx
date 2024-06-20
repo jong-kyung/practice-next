@@ -1,8 +1,13 @@
-import Trend from "@/app/(afterLogin)/_component/Trend";
 import SearchForm from "@/app/(afterLogin)/_component/SearchForm";
 
 import style from "./explore.module.css";
 import TrendSection from "./_component/TrendSection";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "탐색하기 / X ",
+  description: "X.com은 사람들이 실시간으로 일어나고 있는 일에 대해 이야기하는 곳입니다.",
+};
 
 export default function Home() {
   return (
