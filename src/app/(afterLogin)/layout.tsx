@@ -9,7 +9,6 @@ import { auth } from "@/auth";
 
 import LogoutButton from "./_component/LogoutButton";
 import TrendSection from "./_component/TrendSection";
-import FollowRecommend from "./_component/FollowRecommend";
 import RightSearchZone from "./_component/RightSerachZone";
 import RQProvider from "./_component/RQProvider";
 import FollowRecommendSection from "./_component/FollowRecommendSection";
@@ -51,7 +50,7 @@ export default async function AfterLoginLayout({ children, modal }: Props) {
                     </svg>
                   </Link>
                 </nav>
-                <LogoutButton />
+                <LogoutButton me={session} />
               </>
             )}
           </div>
