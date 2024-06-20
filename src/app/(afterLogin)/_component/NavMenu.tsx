@@ -8,7 +8,7 @@ import style from "./navMenu.module.css";
 
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
-  console.log(segment);
+
   const { data: me } = useSession();
 
   return (
