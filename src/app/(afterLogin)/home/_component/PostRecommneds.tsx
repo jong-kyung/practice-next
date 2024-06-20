@@ -31,14 +31,16 @@ export default function PostRecommends() {
     }
   }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
-  return data?.pages.map((page, i) => (
+  return (
     <>
-      <Fragment key={i}>
-        {page.map((post) => (
-          <Post key={post.postId} post={post} />
-        ))}
-      </Fragment>
+      {data?.pages.map((page, i) => (
+        <Fragment key={i}>
+          {page.map((post) => (
+            <Post key={post.postId} post={post} />
+          ))}
+        </Fragment>
+      ))}
       <div ref={ref} style={{ height: 50 }} />
     </>
-  ));
+  );
 }
