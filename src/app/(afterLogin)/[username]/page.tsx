@@ -4,6 +4,7 @@ import UserPosts from "./_component/UserPosts";
 import UserInfo from "./_component/UserInfo";
 
 import style from "./profile.module.css";
+import { auth } from "@/auth";
 import { getUserPosts } from "./_lib/getUserPosts";
 import { getUser } from "./_lib/getUser";
 
@@ -13,6 +14,7 @@ type Props = {
 
 export default async function Profile({ params }: Props) {
   const { username } = params;
+  const session = await auth();
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({ queryKey: ["users", username], queryFn: getUser });
   await queryClient.prefetchQuery({ queryKey: ["posts", "users", username], queryFn: getUserPosts });
@@ -21,7 +23,7 @@ export default async function Profile({ params }: Props) {
   return (
     <main className={style.main}>
       <HydrationBoundary state={dehydratedState}>
-        <UserInfo username={username} />
+        <UserInfo username={username} session={session} />
         <div>
           <UserPosts username={username} />
         </div>
