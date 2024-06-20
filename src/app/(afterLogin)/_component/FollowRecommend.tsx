@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MouseEventHandler } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import cx from "classnames";
 
 import { User } from "@/model/User";
 import style from "./followRecommend.module.css";
@@ -159,9 +160,6 @@ export default function FollowRecommend({ user }: Props) {
       follow.mutate(user.id);
     }
   };
-  function cx(followButtonSection: string, arg1: string | boolean): string | undefined {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <Link href={`/${user.id}`} className={style.container}>
