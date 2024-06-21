@@ -17,12 +17,30 @@ type Props = {
   params: { id: string; username: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props) {
   const user: User = await getUserServer({ queryKey: ["users", params.username] });
   const post: Post = await getSinglePostServer({ queryKey: ["posts", params.id] });
   return {
     title: `X에서 ${user.nickname} 님 : ${post.content}`,
     description: post.content,
+    openGraph: {
+      title: `X에서 ${user.nickname} 님 : ${post.content}`,
+      description: post.content,
+      images:
+        post.Images?.length > 0
+          ? post.Images?.map((v) => ({
+              url: `${v.link}`,
+              width: 600,
+              height: 400,
+            }))
+          : [
+              {
+                url: `${user.image}`,
+                width: 400,
+                height: 400,
+              },
+            ],
+    },
   };
 }
 

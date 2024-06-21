@@ -19,6 +19,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${user.nickname} (${user.id}) / X`,
     description: `${user.nickname}  / X`,
+    openGraph: {
+      title: `${user.nickname} (${user.id}) / X`,
+      description: `${user.nickname}  / X`,
+      images: [
+        {
+          url: `${user.image}`,
+          width: 400,
+          height: 400,
+        },
+      ],
+    },
   };
 }
 
