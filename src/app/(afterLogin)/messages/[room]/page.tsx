@@ -1,22 +1,33 @@
 import Link from "next/link";
-import { faker } from "@faker-js/faker";
 import cx from "classnames";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
+import { QueryClient } from "@tanstack/react-query";
 
-import BackButton from "@/app/(afterLogin)/_component/BackButton";
+import { auth } from "@/auth";
+import MessageForm from "./_component/MessageForm";
+import { UserInfo } from "./_component/UserInfo";
+import { getUserServer } from "../../[username]/_lib/getUserServer";
+
 import style from "./chatRoom.module.css";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
-export default function ChatRoom() {
-  const user = {
-    id: "tim_cook",
-    nickname: "Tim Cook",
-    image: faker.image.avatar(),
-  };
+type Props = {
+  params: { room: string };
+};
+
+export default async function ChatRoom({ params }: Props) {
+  const session = await auth();
+  const queryClient = new QueryClient();
+  const ids = params.room.split("-").filter((v) => v !== session?.user?.email);
+  if (!ids[0]) {
+    return null;
+  }
+  await queryClient.prefetchQuery({ queryKey: ["users", ids[0]], queryFn: getUserServer });
+
   const messages = [
     { messageId: 1, roomId: 123, id: "elonMusk", content: "안녕하세요.", createdAt: new Date() },
     { messageId: 2, roomId: 123, id: "hero", content: "안녕히가세요.", createdAt: new Date() },
@@ -24,19 +35,7 @@ export default function ChatRoom() {
 
   return (
     <main className={style.main}>
-      <div className={style.header}>
-        <BackButton />
-        <div>
-          <h2>{user.nickname}</h2>
-        </div>
-      </div>
-      <Link href={user.nickname} className={style.userInfo}>
-        <img src={user.image} alt={user.id} />
-        <div>
-          <b>{user.nickname}</b>
-        </div>
-        <div>@{user.id}</div>
-      </Link>
+      <UserInfo id={ids[0]} />
       <div className={style.list}>
         {messages.map((m) => {
           if (m.id === "elonMusk") {
@@ -56,6 +55,7 @@ export default function ChatRoom() {
           );
         })}
       </div>
+      <MessageForm />
     </main>
   );
 }
