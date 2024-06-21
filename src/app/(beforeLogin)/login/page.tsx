@@ -1,27 +1,20 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-
+import { auth } from "@/auth";
 import Main from "@/app/(beforeLogin)/_component/Main";
+import RedirectToLogin from "./_component/RedirectToLogin";
 
-export default function Login() {
-  const router = useRouter();
-  const { data: session } = useSession();
+export default async function Login() {
+  const session = await auth();
 
   if (session?.user) {
-    router.replace("/home");
-    return null;
+    redirect("/home");
   }
 
-  router.replace("/i/flow/login");
-
-  return <Main />;
+  return (
+    <>
+      <RedirectToLogin />
+      <Main />
+    </>
+  );
 }
-
-// router.push
-// localhost:3000 -> localhost:3000/login -> localhost:3000/i/flow/login
-
-// router.replace
-// localhost:3000 -> localhost:3000/login -> localhost:3000/i/flow/login
-// localhost:3000 -> localhost:3000/i/flow/login
