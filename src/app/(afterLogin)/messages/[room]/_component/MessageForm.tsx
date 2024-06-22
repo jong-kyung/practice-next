@@ -1,12 +1,25 @@
 "use client";
 
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import TextareaAutosize from "react-textarea-autosize";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 
+import useSocket from "../_lib/useSocket";
+import { useMessageStore } from "@/store/message";
+import { Message } from "@/model/Message";
 import style from "./messageForm.module.css";
 
-export default function MessageForm() {
+type Props = {
+  id: string;
+};
+
+export default function MessageForm({ id }: Props) {
+  const { data: session } = useSession();
   const [content, setContent] = useState<string>("");
+  const setGoDown = useMessageStore().setGoDown;
+  const [socket] = useSocket();
+  const queryClient = useQueryClient();
 
   const onChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setContent(e.target.value);
@@ -14,8 +27,52 @@ export default function MessageForm() {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (!session?.user?.email) {
+      return;
+    }
+    const ids = [session?.user?.email, id];
+    ids.sort();
+
+    socket?.emit("sendMessage", {
+      senderId: session?.user?.email,
+      receiverId: id,
+      content,
+    });
+    //TODO 리액트 쿼리 데이터에 추가
+    const exMessages = queryClient.getQueryData([
+      "rooms",
+      { senderId: session?.user?.email, receiverId: id },
+      "messages",
+    ]) as InfiniteData<Message[]>;
+    if (exMessages && typeof exMessages === "object") {
+      const newMessages = {
+        ...exMessages,
+        pages: [...exMessages.pages],
+      };
+      const lastPage = newMessages.pages.at(-1);
+      const newLastPage = lastPage ? [...lastPage] : [];
+      let lastMessageId = lastPage?.at(-1)?.messageId;
+      newLastPage.push({
+        senderId: session.user.email,
+        receiverId: id,
+        content,
+        room: ids.join("-"),
+        messageId: lastMessageId ? lastMessageId + 1 : 1,
+        createdAt: new Date(),
+      });
+      newMessages.pages[newMessages.pages.length - 1] = newLastPage;
+      queryClient.setQueryData(["rooms", { senderId: session?.user?.email, receiverId: id }, "messages"], newMessages);
+      setGoDown(true);
+    }
     setContent("");
   };
+
+  useEffect(() => {
+    socket?.on("receiveMessage", (data) => {});
+    return () => {
+      socket?.off("receiveMessage");
+    };
+  }, [socket]);
 
   return (
     <div className={style.formZone}>
