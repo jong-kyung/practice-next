@@ -1,3 +1,6 @@
+const { createVanillaExtractPlugin } = require("@vanilla-extract/next-plugin");
+const withVanillaExtract = createVanillaExtractPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
@@ -10,4 +13,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = withVanillaExtract(nextConfig);

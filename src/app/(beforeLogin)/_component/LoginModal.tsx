@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 
-import style from "@/app/(beforeLogin)/_component/login.module.css";
+import * as style from "@/app/(beforeLogin)/_component/login.css";
 
 export default function LoginModal() {
   const [id, setId] = useState("");

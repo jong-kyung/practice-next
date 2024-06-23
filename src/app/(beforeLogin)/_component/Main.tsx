@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import styles from "@/app/(beforeLogin)/_component/main.module.css";
+import * as styles from "@/app/(beforeLogin)/_component/main.css";
 import logo from "../../../../public/logo.svg";
 
 export default function Home() {
